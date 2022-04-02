@@ -1,0 +1,32 @@
+#include <sys/types.h>
+#include <dirent.h>
+#include <stdio.h>
+
+
+// struct dirent *readdir(DIR *dirp);
+// DIR *opendir(const char *name);
+// int closedir(DIR *dirp)
+int main(int argc, char *argv[])
+{
+    if(argc != 2){
+        printf("param error!\n");
+        return -1;
+    }
+    //DIR *tmpDir = opendir("/root");
+    DIR *tmpDir = opendir(argv[1]);
+    struct dirent * dp = NULL;
+    if(tmpDir == NULL){
+        printf("opendir failed\n");
+        return -1;
+    }
+
+    while((dp = readdir(tmpDir)) != NULL){
+        printf("%s\n", dp->d_name);
+    }
+
+    int ret  = closedir(tmpDir);
+    printf("ret = %d, issuccess = %s\n", ret, ret == 0?"true":"false");
+    return 0;
+
+}
+
